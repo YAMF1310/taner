@@ -23,4 +23,5 @@ type RootState = {
   currentTag?: Tag;
   createRecordError: Error | null;
   createTagError: Error | null;
+  selectedTags?: string[];
 };

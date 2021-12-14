@@ -8,6 +8,7 @@
 
     <ol v-if="groupedList.length > 0">
       <li v-for="(group, index) in groupedList" :key="index">
+        {{ group }}
         <h3 class="title">
           {{ beautify(group.title) }}<span>￥{{ group.total }}</span>
         </h3>
@@ -66,7 +67,6 @@
 import Tabs from "@/components/Tabs.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import intervalList from "../constants/intervalList";
 import recordTypeList from "../constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
@@ -123,13 +123,17 @@ export default class Stattistics extends Vue {
       } else {
         result.push({
           title: dayjs(current.createdAt).format("YYYY-MM-DD"),
+          total: 0,
           items: [current],
         });
       }
-      result.map((group) => {
-        group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
-      });
     }
+    result.map((group) => {
+      group.total = group.items.reduce((sum, item) => {
+        console.log(item.amount);
+        return sum + item.amount;
+      }, 0);
+    });
     return result;
   }
   beforeCreate() {
